@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+
+{% block title %} Mój blog {% endblock %}
+
+{% block content %}
+	<h1>Lista postów</h1>
+	{% for post in posts %}
+		<div style="background: rgba(0,0,0,.1); overflow: auto; margin: 20px">
+			<a href="#">{{ post.title }}</a>
+		</div>
+	{% endfor %}
+{% endblock %}
