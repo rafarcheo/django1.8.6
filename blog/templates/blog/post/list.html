@@ -6,7 +6,14 @@
 	<h1>Lista postów</h1>
 	{% for post in posts %}
 		<div style="background: rgba(0,0,0,.1); overflow: auto; margin: 20px">
-			<a href="#">{{ post.title }}</a>
+			<h2>
+				<a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+			</h2>
+			<p class="date">
+				Opublikowany {{ post.publish }} przez {{ post.author }}
+			</p>
+			{{ post.body|truncatewords:10|linebreaks }}
 		</div>
+        {% include "blog/post/pagination.html" with page=posts %}
 	{% endfor %}
 {% endblock %}
