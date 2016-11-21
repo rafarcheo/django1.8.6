@@ -6,5 +6,34 @@
     <h1>{{ post.title }}</h1>
     <p class="date">{{ post.publish }} przez {{ post.author }}</p>
     {{ post.body|linebreaks }}
-<a href="{% url 'blog:post_share' post.id %}">Udostępnij post</a>
+    <a href="{% url 'blog:post_share' post.id %}">Udostępnij post</a>
+
+    {% with comments.count as total_comments %}
+        <h2>
+            {{ total_comments }} komentarz {{ total_comments|pluralize:"y" }}
+        </h2>
+    {% endwith %}
+
+    {% for comment in comments %}
+        <div class="comment">
+            <p class="info">
+                Komentarz {{ forloop.counter }} dodany przez {{ comment.name }} {{ comment.created }}
+            </p>
+            {{ comment.body|linebreaks }}
+        </div>
+    {% empty %}
+        <p>brak komentarzy </p>
+    {% endfor %}
+
+    {% if new_comment %}
+        <h2>komentarz dodany.</h2>
+    {% else %}
+        <h2>Dodaj nowy komentarz</h2>
+        <form action="." method="post">
+            {{ comment_form.as_p }}
+            {% csrf_token %}
+            <p><input type="submit" value="Dodaj Komentarz"></p>
+        </form>
+    {% endif %}
 {% endblock %}
+
